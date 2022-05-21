@@ -100,5 +100,50 @@
       loadMainDartJs();
     }
   </script>
+
+  <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-analytics.js"></script>
+
+  <!-- <script type="module">
+    const firebaseConfig = {
+      apiKey: "AIzaSyCp1zFJIViCq3mYFiwK3pWjkvX-VBv5Bys",
+      authDomain: "time-tracker-flutter-cou-83b95.firebaseapp.com",
+      projectId: "time-tracker-flutter-cou-83b95",
+      storageBucket: "time-tracker-flutter-cou-83b95.appspot.com",
+      messagingSenderId: "668536051557",
+      appId: "1:668536051557:web:70a42046ba45540d40338c",
+      measurementId: "G-BVWV93ZBDH"
+    };
+  
+    // Initialize Firebase
+   firebase.initializeApp(firebaseConfig);
+   firebase.getAnalytics();
+  </script> -->
+
+
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyCp1zFJIViCq3mYFiwK3pWjkvX-VBv5Bys",
+    authDomain: "time-tracker-flutter-cou-83b95.firebaseapp.com",
+    projectId: "time-tracker-flutter-cou-83b95",
+    storageBucket: "time-tracker-flutter-cou-83b95.appspot.com",
+    messagingSenderId: "668536051557",
+    appId: "1:668536051557:web:70a42046ba45540d40338c",
+    measurementId: "G-BVWV93ZBDH"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
 </body>
 </html>
