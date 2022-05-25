@@ -1,9 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:time_tracker_flutter_course/app/sign_in/sign_in_button.dart';
 import 'package:time_tracker_flutter_course/app/sign_in/social_sign_in_button.dart';
-import 'package:time_tracker_flutter_course/common_widgets/custom_raised_button.dart';
+import 'package:time_tracker_flutter_course/services/auth.dart';
 
 class SignInPage extends StatelessWidget {
+  const SignInPage({Key? key, required this.auth, required this.onSignIn})
+      : super(key: key);
+  final AuthBase auth;
+  final void Function(User? user) onSignIn;
+
+  Future<void> _signInAnonymonusly() async {
+    try {
+      final user = await auth.signInAnonymonusly();
+      onSignIn(user);
+      print('flutter: ${user?.uid}');
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,13 +27,13 @@ class SignInPage extends StatelessWidget {
         title: Text('Time Tracker'),
         elevation: 10.0,
       ),
-      body: _buildContent(),
+      body: _buildContent(_signInAnonymonusly),
       backgroundColor: Colors.grey[200],
     );
   }
 }
 
-Widget _buildContent() {
+Widget _buildContent(signInAnonymonusly) {
   return Padding(
     padding: const EdgeInsets.all(16.0),
     child: Column(
@@ -79,7 +95,7 @@ Widget _buildContent() {
           text: 'Go anonymous',
           textColor: Colors.black,
           color: Colors.lime[300],
-          onPressed: () {},
+          onPressed: signInAnonymonusly,
         ),
       ],
     ),
