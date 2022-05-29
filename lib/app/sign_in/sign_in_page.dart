@@ -1,20 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:time_tracker_flutter_course/app/sign_in/sign_in_button.dart';
 import 'package:time_tracker_flutter_course/app/sign_in/social_sign_in_button.dart';
 import 'package:time_tracker_flutter_course/services/auth.dart';
 
 class SignInPage extends StatelessWidget {
-  const SignInPage({Key? key, required this.auth, required this.onSignIn})
-      : super(key: key);
+  const SignInPage({Key? key, required this.auth}) : super(key: key);
   final AuthBase auth;
-  final void Function(User? user) onSignIn;
 
   Future<void> _signInAnonymonusly() async {
     try {
       final user = await auth.signInAnonymonusly();
-      onSignIn(user);
       print('flutter: ${user?.uid}');
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<void> _signInWithGoogle() async {
+    try {
+      await auth.signInWithGoogle();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<void> _signInWithFacebook() async {
+    try {
+      await auth.signInWithFacebook();
     } catch (e) {
       print(e.toString());
     }
@@ -27,13 +39,14 @@ class SignInPage extends StatelessWidget {
         title: Text('Time Tracker'),
         elevation: 10.0,
       ),
-      body: _buildContent(_signInAnonymonusly),
+      body: _buildContent(
+          _signInAnonymonusly, _signInWithGoogle, _signInWithFacebook),
       backgroundColor: Colors.grey[200],
     );
   }
 }
 
-Widget _buildContent(signInAnonymonusly) {
+Widget _buildContent(signInAnonymonusly, signInWithGoogle, signInWithFacebook) {
   return Padding(
     padding: const EdgeInsets.all(16.0),
     child: Column(
@@ -56,7 +69,7 @@ Widget _buildContent(signInAnonymonusly) {
           color: Colors.white,
           text: 'Sign in with Google',
           textColor: Colors.black87,
-          onPressed: () {},
+          onPressed: signInWithGoogle,
         ),
         const SizedBox(
           height: 8.0,
@@ -66,7 +79,7 @@ Widget _buildContent(signInAnonymonusly) {
           color: Color(0xFF334D92),
           text: 'Sign in with Facebook',
           textColor: Colors.white,
-          onPressed: () {},
+          onPressed: signInWithFacebook,
         ),
         const SizedBox(
           height: 8.0,

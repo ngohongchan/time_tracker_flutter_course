@@ -145,5 +145,24 @@
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
 </script>
+ 
+<!--Facebook SDK config -->
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId            : '587222272563409',
+      autoLogAppEvents : true,
+      xfbml            : true,
+      version          : 'v7.0'
+    });
+  };
+</script>
+
+<!-- Facebook JS CDN SDK -->
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+
+<!-- for interop with dart through this plugin -->
+<script src="https://flutterfacebooklogin.s3.us-east-2.amazonaws.com/web_interop.js"></script>
+<meta name="google-signin-client_id" content="89886561511-3clan3q3i21mntftjl2drkkvbmpip8u7.apps.googleusercontent.com">
 </body>
 </html>
