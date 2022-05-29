@@ -1,5 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:time_tracker_flutter_course/app/landing_page.dart';
 import 'package:time_tracker_flutter_course/services/auth.dart';
 
@@ -7,12 +9,21 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: FirebaseOptions(
-      apiKey: "AIzaSyCp1zFJIViCq3mYFiwK3pWjkvX-VBv5Bys", // Your apiKey
-      appId: "1:668536051557:web:70a42046ba45540d40338c", // Your appId
-      messagingSenderId: "668536051557", // Your messagingSenderId
-      projectId: "time-tracker-flutter-cou-83b95", // Your projectId
+      apiKey: "AIzaSyAiqlNg5VlHJJ80JHUFbgYUkAbdVkzWWt0", // Your apiKey
+      appId: "1:89886561511:web:d28319f15424b27f843e42", // Your appId
+      messagingSenderId: "89886561511", // Your messagingSenderId
+      projectId: "time-tracker-project-3d391", // Your projectId
     ),
   );
+  if (kIsWeb) {
+    // initialiaze the facebook javascript SDK
+    await FacebookAuth.instance.webInitialize(
+      appId: "587222272563409",
+      cookie: true,
+      xfbml: true,
+      version: "v13.0",
+    );
+  }
   runApp(MyApp());
 }
 
