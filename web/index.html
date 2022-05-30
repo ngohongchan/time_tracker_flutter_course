@@ -153,7 +153,11 @@
       appId            : '587222272563409',
       autoLogAppEvents : true,
       xfbml            : true,
-      version          : 'v7.0'
+      version          : 'v14.0'
+    });
+
+    FB.getLoginStatus(function(response) {
+        statusChangeCallback(response);
     });
   };
 </script>
@@ -163,6 +167,8 @@
 
 <!-- for interop with dart through this plugin -->
 <script src="https://flutterfacebooklogin.s3.us-east-2.amazonaws.com/web_interop.js"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 <meta name="google-signin-client_id" content="89886561511-3clan3q3i21mntftjl2drkkvbmpip8u7.apps.googleusercontent.com">
+<div class="g-signin2" data-onsuccess="handleCredentialResponse"></div>
 </body>
 </html>

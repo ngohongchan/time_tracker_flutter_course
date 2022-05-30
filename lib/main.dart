@@ -15,15 +15,15 @@ Future<void> main() async {
       projectId: "time-tracker-project-3d391", // Your projectId
     ),
   );
-  if (kIsWeb) {
-    // initialiaze the facebook javascript SDK
-    await FacebookAuth.instance.webInitialize(
-      appId: "587222272563409",
-      cookie: true,
-      xfbml: true,
-      version: "v13.0",
-    );
-  }
+  // if (kIsWeb) {
+  //   // initialiaze the facebook javascript SDK
+  //   await FacebookAuth.instance.webInitialize(
+  //     appId: "587222272563409",
+  //     cookie: true,
+  //     xfbml: true,
+  //     version: "v13.0",
+  //   );
+  // }
   runApp(MyApp());
 }
 
