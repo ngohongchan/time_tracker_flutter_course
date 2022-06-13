@@ -2,8 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:provider/provider.dart';
 import 'package:time_tracker_flutter_course/app/landing_page.dart';
 import 'package:time_tracker_flutter_course/services/auth.dart';
+import 'package:time_tracker_flutter_course/services/auth_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,13 +17,14 @@ Future<void> main() async {
       projectId: "time-tracker-project-3d391", // Your projectId
     ),
   );
+
   // if (kIsWeb) {
   //   // initialiaze the facebook javascript SDK
   //   await FacebookAuth.instance.webInitialize(
   //     appId: "587222272563409",
   //     cookie: true,
   //     xfbml: true,
-  //     version: "v13.0",
+  //     version: "v14.0",
   //   );
   // }
   runApp(MyApp());
@@ -34,26 +37,27 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Time Tracker',
-      theme: ThemeData(
-        primarySwatch: Colors.indigo,
-      ),
-      home: FutureBuilder(
-        future: _initialization,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            print("Error");
-          }
+    return Provider<AuthBase>(
+      create: (context) => Auth(),
+      child: MaterialApp(
+        title: 'Time Tracker',
+        theme: ThemeData(
+          primarySwatch: Colors.indigo,
+        ),
+        home: FutureBuilder(
+          future: _initialization,
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              print("Error");
+            }
 
-          if (snapshot.connectionState == ConnectionState.done) {
-            return LandingPage(
-              auth: Auth(),
-            );
-          }
+            if (snapshot.connectionState == ConnectionState.done) {
+              return LandingPage();
+            }
 
-          return CircularProgressIndicator();
-        },
+            return CircularProgressIndicator();
+          },
+        ),
       ),
     );
   }

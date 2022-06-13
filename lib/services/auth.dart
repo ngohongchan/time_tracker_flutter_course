@@ -39,8 +39,8 @@ class Auth implements AuthBase {
     try {
       final googleSignIn = GoogleSignIn();
       final facebookLogin = FacebookLoginWeb();
-      await facebookLogin.logOut();
-      await googleSignIn.signOut();
+      // await facebookLogin.logOut();
+      // await googleSignIn.signOut();
       await _firebaseAuth.signOut();
     } catch (e) {
       print(e.toString());
@@ -97,19 +97,22 @@ class Auth implements AuthBase {
   @override
   Future<User?> signInWithGoogle() async {
     final GoogleSignIn _googleSignIn = GoogleSignIn(
-      scopes: [
+      clientId:
+          '89886561511-3clan3q3i21mntftjl2drkkvbmpip8u7.apps.googleusercontent.com',
+      scopes: <String>[
         'email',
         'https://www.googleapis.com/auth/contacts.readonly',
       ],
     );
     final googleUser = await _googleSignIn.signIn();
     if (googleUser != null) {
-      final googleAuth = await googleUser.authentication;
-      if (googleAuth.idToken != null) {
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser.authentication;
+      if (googleAuth?.idToken != null) {
         final userCredential = await _firebaseAuth.signInWithCredential(
           GoogleAuthProvider.credential(
-            idToken: googleAuth.idToken,
-            accessToken: googleAuth.accessToken,
+            idToken: googleAuth?.idToken,
+            accessToken: googleAuth?.accessToken,
           ),
         );
 
