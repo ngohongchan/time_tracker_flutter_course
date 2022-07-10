@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:time_tracker_flutter_course/app/home_page.dart';
 import 'package:time_tracker_flutter_course/app/sign_in/sign_in_page.dart';
+import 'package:time_tracker_flutter_course/app/sign_in/sign_in_page_notifier.dart';
 import 'package:time_tracker_flutter_course/services/auth.dart';
 // import 'package:time_tracker_flutter_course/services/auth_provider.dart';
 
@@ -22,7 +23,7 @@ class LandingPage extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.active) {
             final User? user = snapshot.data;
             if (user == null) {
-              return SignInPage.create(context);
+              return SignInPageNotifier.create(context);
             }
             return HomePage();
           }
