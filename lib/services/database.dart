@@ -6,7 +6,7 @@ import 'package:time_tracker_flutter_course/services/api_path.dart';
 
 abstract class Database {
   Future<void> createJob(Job job);
-  Stream<List<Job>> jobsStream();
+  Stream<List<Job?>> jobsStream();
 }
 
 class FireStoreDatabase implements Database {
@@ -27,16 +27,33 @@ class FireStoreDatabase implements Database {
   }
 
   @override
-  Stream<List<Job>> jobsStream() {
-    final path = APIPath.jobs(uid);
+  Stream<List<Job?>> jobsStream() => _collections(
+      path: APIPath.jobs(uid), builder: (data) => Job.fromMap(data));
+
+  Stream<List<T>> _collections<T>({
+    required String path,
+    required T Function(Map<String, dynamic>) builder,
+  }) {
     final reference = FirebaseFirestore.instance.collection(path);
     final snapshots = reference.snapshots();
-    return snapshots.map((snapshot) => snapshot.docs.map((snapshot) {
-          Map<String, dynamic> data = snapshot.data();
-          return Job(
-            name: data['name'],
-            ratePerHour: data['ratePerHour'],
-          );
-        }).toList());
+    return snapshots.map((snapshot) => snapshot.docs
+        .map(
+          (snapshot) => builder(snapshot.data()),
+        )
+        .toList());
   }
 }
+
+  //  @override
+  // Stream<List<Job>> jobsStream() {
+  //   final path = APIPath.jobs(uid);
+  //   final reference = FirebaseFirestore.instance.collection(path);
+  //   final snapshots = reference.snapshots();
+  //   return snapshots.map((snapshot) => snapshot.docs.map((snapshot) {
+  //         Map<String, dynamic> data = snapshot.data();
+  //         return Job(
+  //           name: data['name'],
+  //           ratePerHour: data['ratePerHour'],
+  //         );
+  //       }).toList());
+
