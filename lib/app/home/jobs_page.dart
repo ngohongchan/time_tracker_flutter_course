@@ -58,8 +58,6 @@ class JobsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final database = Provider.of<Database>(context, listen: false);
-    database.readJobs();
     return Scaffold(
       appBar: AppBar(
         title: Text('Jobs'),
@@ -80,9 +78,30 @@ class JobsPage extends StatelessWidget {
         child: Icon(Icons.add),
         onPressed: () => _createJob(context),
       ),
-      body: Center(
-        child: Text('Welcome to Home Page'),
-      ),
+      body: _buildContents(context),
+    );
+  }
+
+  Widget _buildContents(context) {
+    final database = Provider.of<Database>(context, listen: false);
+
+    return StreamBuilder<List<Job>>(
+      stream: database.jobsStream(),
+      builder: (context, snapshot) {
+        print(snapshot.hasData);
+        if (snapshot.hasData) {
+          final jobs = snapshot.data;
+          final children = jobs?.map((e) => Text(e.name)).toList();
+          print(jobs?.map((e) => Text(e.name)).toList());
+          return ListView(
+            children: children!,
+          );
+        }
+
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
   }
 }
