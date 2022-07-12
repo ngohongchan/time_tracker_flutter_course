@@ -85,14 +85,14 @@ class JobsPage extends StatelessWidget {
   Widget _buildContents(context) {
     final database = Provider.of<Database>(context, listen: false);
 
-    return StreamBuilder<List<Job>>(
+    return StreamBuilder<List<Job?>>(
       stream: database.jobsStream(),
       builder: (context, snapshot) {
         print(snapshot.hasData);
         if (snapshot.hasData) {
           final jobs = snapshot.data;
-          final children = jobs?.map((e) => Text(e.name)).toList();
-          print(jobs?.map((e) => Text(e.name)).toList());
+          final children = jobs?.map((e) => Text(e!.name)).toList();
+          print(jobs?.map((e) => Text(e!.name)).toList());
           return ListView(
             children: children!,
           );
