@@ -1,10 +1,12 @@
+import 'dart:html';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:time_tracker_flutter_course/app/home/models/job.dart';
 import 'package:time_tracker_flutter_course/services/api_path.dart';
 
 abstract class Database {
   Future<void> createJob(Job job);
-  void readJobs();
+  Stream<List<Job>> jobsStream();
 }
 
 class FireStoreDatabase implements Database {
@@ -25,12 +27,16 @@ class FireStoreDatabase implements Database {
   }
 
   @override
-  void readJobs() {
+  Stream<List<Job>> jobsStream() {
     final path = APIPath.jobs(uid);
     final reference = FirebaseFirestore.instance.collection(path);
     final snapshots = reference.snapshots();
-    snapshots.listen((snapshot) {
-      snapshot.docs.forEach((snapshot) => print(snapshot.data()));
-    });
+    return snapshots.map((snapshot) => snapshot.docs.map((snapshot) {
+          Map<String, dynamic> data = snapshot.data();
+          return Job(
+            name: data['name'],
+            ratePerHour: data['ratePerHour'],
+          );
+        }).toList());
   }
 }
