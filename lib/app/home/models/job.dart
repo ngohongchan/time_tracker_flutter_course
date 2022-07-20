@@ -1,9 +1,10 @@
 class Job {
-  Job({required this.name, required this.ratePerHour});
+  Job({required this.name, required this.ratePerHour, required this.id});
   final String name;
   final int ratePerHour;
+  final String id;
 
-  static Job? fromMap(Map<String, dynamic> data) {
+  static Job? fromMap(Map<String, dynamic> data, String documentId) {
     if (data == null) {
       return null;
     }
@@ -14,6 +15,7 @@ class Job {
     return Job(
       name: name,
       ratePerHour: ratePerHour,
+      id: documentId,
     );
   }
 

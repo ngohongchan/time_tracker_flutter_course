@@ -2,6 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:time_tracker_flutter_course/app/home/add_job_page.dart';
+import 'package:time_tracker_flutter_course/app/home/edit_job_page.dart';
+import 'package:time_tracker_flutter_course/app/home/job_list_title.dart';
 import 'package:time_tracker_flutter_course/app/home/models/job.dart';
 import 'package:time_tracker_flutter_course/common_widgets/show_alert_dialog.dart';
 import 'package:time_tracker_flutter_course/common_widgets/show_exeption_alert_dialog.dart';
@@ -38,21 +40,21 @@ class JobsPage extends StatelessWidget {
     }
   }
 
-  Future<void> _createJob(context) async {
-    try {
-      final database = Provider.of<Database>(context, listen: false);
-      await database.createJob(Job(
-        name: 'Blogging',
-        ratePerHour: 10,
-      ));
-    } on FirebaseException catch (e) {
-      showExceptionAlertDialog(
-        context,
-        title: 'Operation failed',
-        exception: e,
-      );
-    }
-  }
+  // Future<void> _createJob(context) async {
+  //   try {
+  //     final database = Provider.of<Database>(context, listen: false);
+  //     await database.setJob(Job(
+  //       name: 'Blogging',
+  //       ratePerHour: 10,
+  //     ));
+  //   } on FirebaseException catch (e) {
+  //     showExceptionAlertDialog(
+  //       context,
+  //       title: 'Operation failed',
+  //       exception: e,
+  //     );
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +76,7 @@ class JobsPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () => AddJobPage.show(context),
+        onPressed: () => EditJobPage.show(context),
       ),
       body: _buildContents(context),
     );
@@ -89,7 +91,10 @@ class JobsPage extends StatelessWidget {
         print(snapshot.hasData);
         if (snapshot.hasData) {
           final jobs = snapshot.data;
-          final children = jobs?.map((e) => Text(e!.name)).toList();
+          final children = jobs
+              ?.map((e) => JobListTitle(
+                  job: e!, onTap: () => EditJobPage.show(context, job: e)))
+              .toList();
           print(jobs?.map((e) => Text(e!.name)).toList());
           return ListView(
             children: children!,
