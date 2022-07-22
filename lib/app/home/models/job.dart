@@ -5,10 +5,6 @@ class Job {
   final String id;
 
   static Job? fromMap(Map<String, dynamic> data, String documentId) {
-    if (data == null) {
-      return null;
-    }
-
     final String name = data['name'];
     final int ratePerHour = data['ratePerHour'];
 
@@ -21,6 +17,7 @@ class Job {
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'name': name,
       'ratePerHour': ratePerHour,
     };

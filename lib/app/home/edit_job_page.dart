@@ -19,7 +19,7 @@ class EditJobPage extends StatefulWidget {
       MaterialPageRoute(
         builder: (context) => EditJobPage(
           database: database,
-          job: job!,
+          job: job as Job,
         ),
         fullscreenDialog: true,
       ),
@@ -33,8 +33,8 @@ class EditJobPage extends StatefulWidget {
 class _EditJobPageState extends State<EditJobPage> {
   final _formKey = GlobalKey<FormState>();
 
-  late String _name;
-  late int _ratePerHour;
+  String? _name;
+  int? _ratePerHour;
 
   @override
   void initState() {
@@ -72,8 +72,8 @@ class _EditJobPageState extends State<EditJobPage> {
             defaultActionText: 'OK',
           );
         } else {
-          final id = widget.job.id ?? documentIdFromCurrentDate();
-          final job = Job(name: _name, ratePerHour: _ratePerHour, id: id);
+          final id = widget.job?.id ?? documentIdFromCurrentDate();
+          final job = Job(name: _name!, ratePerHour: _ratePerHour!, id: id);
           await widget.database.setJob(job);
           Navigator.of(context).pop();
         }
