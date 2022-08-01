@@ -1,11 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:time_tracker_flutter_course/app/home/add_job_page.dart';
-import 'package:time_tracker_flutter_course/app/home/edit_job_page.dart';
-import 'package:time_tracker_flutter_course/app/home/empty_content.dart';
-import 'package:time_tracker_flutter_course/app/home/job_list_title.dart';
-import 'package:time_tracker_flutter_course/app/home/list_items_builder.dart';
+import 'package:time_tracker_flutter_course/app/home/job_entries/job_entries_page.dart';
+import 'package:time_tracker_flutter_course/app/home/jobs/edit_job_page.dart';
+import 'package:time_tracker_flutter_course/app/home/jobs/job_list_title.dart';
+import 'package:time_tracker_flutter_course/app/home/jobs/list_items_builder.dart';
 import 'package:time_tracker_flutter_course/app/home/models/job.dart';
 import 'package:time_tracker_flutter_course/common_widgets/show_alert_dialog.dart';
 import 'package:time_tracker_flutter_course/common_widgets/show_exeption_alert_dialog.dart';
@@ -77,6 +76,14 @@ class JobsPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Jobs'),
         actions: <Widget>[
+          IconButton(
+            onPressed: () => EditJobPage.show(context,
+                database: Provider.of<Database>(context, listen: false)),
+            icon: Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+          ),
           FlatButton(
             onPressed: () => _confirmSignOut(context),
             child: Text(
@@ -88,10 +95,6 @@ class JobsPage extends StatelessWidget {
             ),
           ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => EditJobPage.show(context),
       ),
       body: _buildContents(context),
     );
@@ -112,7 +115,7 @@ class JobsPage extends StatelessWidget {
             onDismissed: (direction) => _delete(context, job),
             child: JobListTitle(
               job: job as Job,
-              onTap: () => EditJobPage.show(context, job: job),
+              onTap: () => JobEntriesPage.show(context, job),
             ),
           ),
         );
