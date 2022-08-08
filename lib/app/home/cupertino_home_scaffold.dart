@@ -8,11 +8,13 @@ class CupertinoHomeScaffold extends StatelessWidget {
     this.currentTab,
     this.onSelectTab,
     required this.widgetBuilders,
+    required this.navigatorKeys,
   }) : super(key: key);
 
   final TabItem? currentTab;
   final ValueChanged<TabItem>? onSelectTab;
   final Map<TabItem, WidgetBuilder> widgetBuilders;
+  final Map<TabItem, GlobalKey> navigatorKeys;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +30,7 @@ class CupertinoHomeScaffold extends StatelessWidget {
       tabBuilder: (BuildContext context, int index) {
         final item = TabItem.values[index];
         return CupertinoTabView(
+          navigatorKey: navigatorKeys[item] as dynamic,
           builder: (context) => widgetBuilders[item] as dynamic(context),
         );
       },
@@ -38,7 +41,10 @@ class CupertinoHomeScaffold extends StatelessWidget {
     final itemData = TabItemData.allTabs[tabItem];
     final color = currentTab == tabItem ? Colors.indigo : Colors.grey;
     return BottomNavigationBarItem(
-      icon: Icon(itemData!.icon),
+      icon: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: Icon(itemData!.icon),
+      ),
       label: itemData.title.toString(),
     );
   }
