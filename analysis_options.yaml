@@ -29,6 +29,10 @@ linter:
       missing_default_value_for_parameter: false
       unnecessary_null_comparison: false
       avoid_print: false
+      dead_null_aware_expression: false
+      prefer_if_null_operators: false
+      invalid_null_aware_operator: false
+
     # avoid_print: false  # Uncomment to disable the `avoid_print` rule
     # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
 

@@ -43,12 +43,12 @@ class FireStoreDatabase implements Database {
   @override
   Stream<Job?> jobStream({required String jobId}) => _service.documentStream(
       path: APIPath.job(uid, jobId),
-      builder: (data, documentId) => Job.fromMap(data, documentId!));
+      builder: (data, documentId) => Job.fromMap(data, documentId));
 
   @override
   Stream<List<Job?>> jobsStream() => _service.collectionStream(
       path: APIPath.jobs(uid),
-      builder: (data, documentId) => Job.fromMap(data, documentId!));
+      builder: (data, documentId) => Job.fromMap(data, documentId));
 
   @override
   Future<void> setEntry(Entry entry) => _service.setData(

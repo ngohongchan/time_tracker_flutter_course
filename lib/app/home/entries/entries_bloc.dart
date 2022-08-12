@@ -24,7 +24,7 @@ class EntriesBloc {
     return entries.map((entry) {
       final job = jobs.firstWhere(
         (job) => job.id == entry.jobId,
-        orElse: () => null as Job,
+        orElse: () => null as dynamic,
       );
       return EntryJob(entry: entry, job: job);
     }).toList();

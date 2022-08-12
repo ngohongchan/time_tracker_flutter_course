@@ -26,7 +26,7 @@ class EmailSignInPage extends StatelessWidget {
 
   Widget _buildContent(BuildContext context) {
     return Container(
-      child: EmailSignInFormChangeNotifier.create(context),
+      child: EmailSignInFormBlocBased.create(context),
     );
   }
 }
